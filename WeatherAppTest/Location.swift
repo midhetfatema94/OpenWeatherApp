@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Location: Codable, Identifiable {
+class Location: Codable, Identifiable, Equatable {
     
     var id: Int
     var city: String
@@ -46,6 +46,10 @@ class Location: Codable, Identifiable {
         try container.encode(tempDetails, forKey: .main)
         try container.encode(weather, forKey: .weather)
     }
+    
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 struct TemperatureDetails: Codable {
@@ -78,8 +82,8 @@ struct TemperatureDetails: Codable {
 struct WeatherDetails: Codable {
     
     var title: String
-    var description: String
     var iconStr: String
+    var description: String?
     
     enum CodingKeys: CodingKey {
         case main, description, icon

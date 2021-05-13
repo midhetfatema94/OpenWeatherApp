@@ -19,6 +19,8 @@
 		63CC624A264D5FCB00C8659F /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC6249264D5FCB00C8659F /* DateHelper.swift */; };
 		63CC6252264D948600C8659F /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC6251264D948600C8659F /* SearchBarView.swift */; };
 		63CC6256264D9BED00C8659F /* LocationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC6255264D9BED00C8659F /* LocationList.swift */; };
+		63CC6264264DD43A00C8659F /* Place+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC6262264DD43A00C8659F /* Place+CoreDataClass.swift */; };
+		63CC6265264DD43A00C8659F /* Place+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CC6263264DD43A00C8659F /* Place+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		63CC6249264D5FCB00C8659F /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		63CC6251264D948600C8659F /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		63CC6255264D9BED00C8659F /* LocationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationList.swift; sourceTree = "<group>"; };
+		63CC6262264DD43A00C8659F /* Place+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+CoreDataClass.swift"; sourceTree = "<group>"; };
+		63CC6263264DD43A00C8659F /* Place+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,8 @@
 		63CC621B264D4F9200C8659F /* WeatherAppTest */ = {
 			isa = PBXGroup;
 			children = (
+				63CC6262264DD43A00C8659F /* Place+CoreDataClass.swift */,
+				63CC6263264DD43A00C8659F /* Place+CoreDataProperties.swift */,
 				63CC6255264D9BED00C8659F /* LocationList.swift */,
 				63CC621C264D4F9200C8659F /* WeatherAppTestApp.swift */,
 				63CC621E264D4F9200C8659F /* ContentView.swift */,
@@ -163,12 +169,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				63CC6252264D948600C8659F /* SearchBarView.swift in Sources */,
+				63CC6265264DD43A00C8659F /* Place+CoreDataProperties.swift in Sources */,
 				63CC6244264D5ED600C8659F /* SearchPlacesView.swift in Sources */,
 				63CC624A264D5FCB00C8659F /* DateHelper.swift in Sources */,
 				63CC6229264D4F9500C8659F /* WeatherAppTest.xcdatamodeld in Sources */,
 				63CC6256264D9BED00C8659F /* LocationList.swift in Sources */,
 				63CC6226264D4F9500C8659F /* Persistence.swift in Sources */,
 				63CC6241264D5E6A00C8659F /* WeatherDetailView.swift in Sources */,
+				63CC6264264DD43A00C8659F /* Place+CoreDataClass.swift in Sources */,
 				63CC621F264D4F9200C8659F /* ContentView.swift in Sources */,
 				63CC621D264D4F9200C8659F /* WeatherAppTestApp.swift in Sources */,
 				63CC6247264D5F8000C8659F /* Location.swift in Sources */,

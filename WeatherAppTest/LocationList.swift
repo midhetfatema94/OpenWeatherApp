@@ -40,9 +40,8 @@ class LocationList: ObservableObject {
 
             if let result = try? JSONDecoder().decode(Result.self, from: data) {
                 DispatchQueue.main.async {[weak self] in
-                    let newPage = result.results
-                    self?.locations = newPage
-                    print("successful response", newPage.count)
+                    self?.locations = result.results
+                    print("successful response")
                 }
             } else {
                 print("Invalid response from server")

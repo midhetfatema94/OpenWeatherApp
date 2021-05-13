@@ -21,22 +21,22 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(locationList.locations) { item in
+                ForEach(places) { item in
                     NavigationLink(
                         destination: WeatherDetailView(),
                         label: {
                             HStack {
                                 VStack(spacing: 10) {
-                                    Text("\(item.city)")
+                                    Text("\(item.city ?? "Place Details")")
                                     Text("\(item.currentDate ?? "Date Details")")
                                 }
                                 
                                 Spacer()
                                 
                                 VStack(spacing: 8) {
-                                    Text("\(String(format: "%.0f", item.tempDetails.main))F")
-                                    Text("\(String(format: "%.0f", item.tempDetails.min))F | \(String(format: "%.0f", item.tempDetails.max))F")
-                                    Text("\(item.weather?.title ?? "Weather detail")")
+                                    Text("\(String(format: "%.0f", item.mainTemp))F")
+                                    Text("\(String(format: "%.0f", item.minTemp))F | \(String(format: "%.0f", item.maxTemp))F")
+                                    Text("\(item.weather ?? "Weather detail")")
                                 }
                             }
                         })
@@ -49,29 +49,13 @@ struct ContentView: View {
                                             Image(systemName: "plus")
                                         })
             )
-            .navigationTitle("Places")
+            .navigationTitle("Favourite Places")
         }
     }
-
-    private func addItem() {
-//        withAnimation {
-//            let newItem = Place(context: viewContext)
-//            newItem.timestamp = Date()
-
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nsError = error as NSError
-//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//            }
-//        }
-    }
-
+    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { places[$0] }.forEach(viewContext.delete)
+//            offsets.map { places[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
