@@ -11,13 +11,13 @@ class Location: Codable, Identifiable, Equatable {
     
     var id: Int
     var city: String
-//    var country: String
+    var countryDetails: SystemDetails
     var currentDate: String?
     var tempDetails: TemperatureDetails
     var weather: WeatherDetails?
     
     enum CodingKeys: CodingKey {
-        case id, name, country, main, weather
+        case id, name, sys, main, weather
     }
         
     required init(from decoder: Decoder) throws {
@@ -25,7 +25,7 @@ class Location: Codable, Identifiable, Equatable {
         
         id = try container.decode(Int.self, forKey: .id)
         city = try container.decode(String.self, forKey: .name)
-//        country = try container.decode(String.self, forKey: .country)
+        countryDetails = try container.decode(SystemDetails.self, forKey: .sys)
         tempDetails = try container.decode(TemperatureDetails.self, forKey: .main)
         
         let weatherArray = try container.decode([WeatherDetails].self, forKey: .weather)
@@ -42,7 +42,7 @@ class Location: Codable, Identifiable, Equatable {
 
         try container.encode(city, forKey: .name)
         try container.encode(id, forKey: .id)
-//        try container.encode(country, forKey: .country)
+        try container.encode(countryDetails, forKey: .sys)
         try container.encode(tempDetails, forKey: .main)
         try container.encode(weather, forKey: .weather)
     }
@@ -105,5 +105,26 @@ struct WeatherDetails: Codable {
         try container.encode(title, forKey: .main)
         try container.encode(description, forKey: .description)
         try container.encode(iconStr, forKey: .icon)
+    }
+}
+
+struct SystemDetails: Codable {
+    
+    var country: String
+    
+    enum CodingKeys: CodingKey {
+        case country
+    }
+        
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        country = try container.decode(String.self, forKey: .country)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(country, forKey: .country)
     }
 }

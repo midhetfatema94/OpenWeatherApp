@@ -23,8 +23,8 @@ struct ContentView: View {
             List {
                 ForEach(places) { item in
                     HStack {
-                        VStack {
-                            Text("\(item.city ?? "Place Details")")
+                        VStack(alignment: .leading) {
+                            Text("\(item.city ?? "Place Details"), \(item.country ?? "Country Details")")
                                 .font(.title3)
                                 .fontWeight(.bold)
                             Text("\(item.currentDate ?? "Date Details")")
@@ -49,6 +49,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onDelete(perform: { indexSet in
+                    deletePlaces(at: indexSet)
+                })
             }
             .navigationBarItems(trailing:
                                     NavigationLink(
@@ -73,22 +76,33 @@ struct ContentView: View {
                             cachedPlace.maxTemp = city.tempDetails.max
                             cachedPlace.weather = city.weather?.title
                             cachedPlace.weatherIconUrlStr = city.weather?.iconStr
+                            cachedPlace.country = city.countryDetails.country
                             
-                            try? self.viewContext.save()
+                            do {
+                                try self.viewContext.save()
+                            } catch {
+                                print("Unable to add new place")
+                            }
                         }
                     }
                 }
             }
         }
     }
+    
+    func deletePlaces(at offsets: IndexSet) {
+        for offset in offsets {
+            let place = places[offset]
+            viewContext.delete(place)
+            
+            do {
+                try viewContext.save()
+            } catch {
+                print("Unable to delete place")
+            }
+        }
+    }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

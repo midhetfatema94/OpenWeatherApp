@@ -22,7 +22,7 @@ struct SearchPlacesView: View {
                 .padding()
             
             List(locationList.locations) { item in
-                Text(item.city)
+                Text("\(item.city), \(item.countryDetails.country)")
                     .onTapGesture(perform: {
                                     addPlace(item: item)
                     })
@@ -37,6 +37,7 @@ struct SearchPlacesView: View {
             
         newPlace.id = Int32(item.id)
         newPlace.city = item.city
+        newPlace.country = item.countryDetails.country
         
         newPlace.currentDate = item.currentDate
         newPlace.mainTemp = item.tempDetails.main
