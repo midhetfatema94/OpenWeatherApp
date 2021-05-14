@@ -71,12 +71,8 @@ struct ContentView: View {
                 DispatchQueue.main.async {
                     if let city = cityResult {
                         if let cachedPlace = places.filter({ $0.id == city.id }).first {
-                            cachedPlace.mainTemp = city.tempDetails.main
-                            cachedPlace.minTemp = city.tempDetails.min
-                            cachedPlace.maxTemp = city.tempDetails.max
-                            cachedPlace.weather = city.weather?.title
-                            cachedPlace.weatherIconUrlStr = city.weather?.iconStr
-                            cachedPlace.country = city.countryDetails.country
+                            
+                            cachedPlace.mapObject(from: city)
                             
                             do {
                                 try self.viewContext.save()

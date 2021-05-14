@@ -34,21 +34,14 @@ struct SearchPlacesView: View {
     func addPlace(item: Location) {
         //Add new place code here
         let newPlace = Place(context: viewContext)
-            
-        newPlace.id = Int32(item.id)
-        newPlace.city = item.city
-        newPlace.country = item.countryDetails.country
+        newPlace.addObject(from: item)
         
-        newPlace.currentDate = item.currentDate
-        newPlace.mainTemp = item.tempDetails.main
-        newPlace.minTemp = item.tempDetails.min
-        newPlace.maxTemp = item.tempDetails.max
-        newPlace.weather = item.weather?.title
-        newPlace.weatherIconUrlStr = item.weather?.iconStr
-        
-        try? self.viewContext.save()
-                                    
-        self.presentationMode.wrappedValue.dismiss()
+        do {
+            try self.viewContext.save()
+            self.presentationMode.wrappedValue.dismiss()
+        } catch {
+            print("Unable to save new city")
+        }
     }
 }
 
