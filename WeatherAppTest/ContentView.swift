@@ -22,24 +22,32 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(places) { item in
-                    NavigationLink(
-                        destination: WeatherDetailView(),
-                        label: {
-                            HStack {
-                                VStack(spacing: 10) {
-                                    Text("\(item.city ?? "Place Details")")
-                                    Text("\(item.currentDate ?? "Date Details")")
-                                }
-                                
-                                Spacer()
-                                
-                                VStack(spacing: 8) {
-                                    Text("\(String(format: "%.0f", item.mainTemp))F")
-                                    Text("\(String(format: "%.0f", item.minTemp))F | \(String(format: "%.0f", item.maxTemp))F")
-                                    Text("\(item.weather ?? "Weather detail")")
-                                }
-                            }
-                        })
+                    HStack {
+                        VStack {
+                            Text("\(item.city ?? "Place Details")")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                            Text("\(item.currentDate ?? "Date Details")")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        VStack(spacing: 8) {
+                            Text("\(String(format: "%.0f", item.mainTemp))F")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            Text("\(String(format: "%.0f", item.minTemp))F | \(String(format: "%.0f", item.maxTemp))F")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            
+                            Text("\(item.weather ?? "Weather detail")")
+                                .font(.footnote)
+                                .foregroundColor(.primary)
+                        }
+                    }
                 }
             }
             .navigationBarItems(trailing:
@@ -50,20 +58,26 @@ struct ContentView: View {
                                         })
             )
             .navigationTitle("Favourite Places")
+            .onAppear(perform: fetchServerUpdates)
         }
     }
     
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-//            offsets.map { places[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+    func fetchServerUpdates() {
+        for place in places {
+            locationList.fetchUpdates(cityId: Int(place.id)) {(cityResult) in
+                DispatchQueue.main.async {
+                    if let city = cityResult {
+                        if let cachedPlace = places.filter({ $0.id == city.id }).first {
+                            cachedPlace.mainTemp = city.tempDetails.main
+                            cachedPlace.minTemp = city.tempDetails.min
+                            cachedPlace.maxTemp = city.tempDetails.max
+                            cachedPlace.weather = city.weather?.title
+                            cachedPlace.weatherIconUrlStr = city.weather?.iconStr
+                            
+                            try? self.viewContext.save()
+                        }
+                    }
+                }
             }
         }
     }

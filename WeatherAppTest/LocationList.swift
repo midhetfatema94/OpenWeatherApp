@@ -38,7 +38,7 @@ class LocationList: ObservableObject {
                 return
             }
 
-            if let result = try? JSONDecoder().decode(Result.self, from: data) {
+            if let result = try? JSONDecoder().decode(ListResult.self, from: data) {
                 DispatchQueue.main.async {[weak self] in
                     self?.locations = result.results
                     print("successful response")
@@ -48,9 +48,40 @@ class LocationList: ObservableObject {
             }
         }.resume()
     }
+    
+    func fetchUpdates(cityId: Int, completionHandler: @escaping (Location?) -> Void) {
+        
+        let apiKey = "a6204763db3fb418f92ae23fbc6f983e"
+        
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?id=\(cityId)&appid=\(apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            print("URL could not be created")
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) {data, response, error in
+
+            guard let data = data else {
+                print("No data in response: ", error?.localizedDescription ?? "Unknown error")
+                return
+            }
+
+            if let result = try? JSONDecoder().decode(Location.self, from: data) {
+                DispatchQueue.main.async {
+                    completionHandler(result)
+                    print("successful response to fetch city updates")
+                }
+            } else {
+                print("Invalid response from server to fetch city updates")
+            }
+        }.resume()
+    }
 }
 
-class Result: Codable {
+class ListResult: Codable {
     
     var statusCode: String
     var results = [Location]()
